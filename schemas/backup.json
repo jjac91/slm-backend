@@ -1,0 +1,78 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+      "user"
+    ],
+    "properties": {
+      "user": {
+        "type": "object",
+        "default": {},
+        "title": "The user Schema",
+        "required": [
+          "username",
+          "password",
+          "name",
+          "isAdmin"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30,
+            "title": "The username Schema",
+            "examples": [
+              "sammy"
+            ]
+          },
+          "password": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 20,
+            "title": "The password Schema",
+            "examples": [
+              "1dsafdas"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50,
+            "title": "The name Schema",
+            "examples": [
+              "james woods"
+            ]
+          },
+          "isAdmin": {
+            "type": "boolean",
+            "default": false,
+            "title": "The isAdmin Schema",
+            "examples": [
+              false
+            ]
+          }
+        },
+        "examples": [
+          {
+            "username": "sammy",
+            "password": "1dsafdas",
+            "name": "james woods",
+            "isAdmin": false
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "user": {
+          "username": "sammy",
+          "password": "1dsafdas",
+          "name": "james woods",
+          "isAdmin": false
+        }
+      }
+    ]
+  }

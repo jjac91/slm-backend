@@ -80,7 +80,8 @@ class User {
 
   /** Gets information on a user
    *
-   * Returns { username, name, is_admin}
+   * Returns { username, name, is_admin, locations}
+   * where locations is [ {id, label, stNumber, adressSt, city , prov, countryName, longt, latt, username}]
    *
    * Throws NotFoundError is no user is found
    */
@@ -94,7 +95,28 @@ class User {
       [username]
     );
     const user = res.rows[0];
+    
     if (!user) throw new NotFoundError(`No user with username ${username}`);
+
+    const locationRes = await db.query(
+      `SELECT id,
+      label, 
+      stnumber AS "stNumber", 
+      addressst AS "addressSt",
+      statename AS "stateName",
+      city, 
+      prov, 
+      countryname AS "countryName", 
+      longt, 
+      latt,
+      username
+      FROM locations
+      WHERE username = $1
+      ORDER BY id`,
+      [username]
+    );
+    user.locations = locationRes.rows;
+
     return user;
   }
 

@@ -1,0 +1,119 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "label",
+        "stNumber",
+        "addressSt",
+        "stateName",
+        "prov",
+        "city",
+        "countryName",
+        "longt",
+        "latt"
+    ],
+    "properties": {
+        "label": {
+            "type": "string",
+            "default": "",
+            "title": "The label Schema",
+            "minLength": 1,
+            "maxLength": 30,
+            "examples": [
+                "home"
+            ]
+        },
+        "stNumber": {
+            "type": [
+                "integer",
+                "null"
+            ],
+            "default": 0,
+            "title": "The stNumber Schema",
+            "examples": [
+                109
+            ]
+        },
+        "addressSt": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "default": "",
+            "title": "The addressSt Schema",
+            "examples": [
+                "Holiday Pl"
+            ]
+        },
+        "stateName": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "default": "",
+            "title": "The stateName Schema",
+            "examples": [
+                "DE"
+            ]
+        },
+        "prov": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "default": "",
+            "title": "The prov Schema",
+            "examples": [
+                "US"
+            ]
+        },
+        "city": {
+            "type": "string",
+            "default": "",
+            "title": "The city Schema",
+            "examples": [
+                "Newark"
+            ]
+        },
+        "countryName": {
+            "type": "string",
+            "default": "",
+            "title": "The countryName Schema",
+            "examples": [
+                "United States of America"
+            ]
+        },
+        "longt": {
+            "type": "string",
+            "default": "",
+            "title": "The longt Schema",
+            "examples": [
+                "-75.75377"
+            ]
+        },
+        "latt": {
+            "type": "string",
+            "default": "",
+            "title": "The latt Schema",
+            "examples": [
+                "39.62855"
+            ]
+        }
+    },
+    "examples": [
+        {
+            "label": "home",
+            "stNumber": 109,
+            "addressSt": "Holiday Pl",
+            "stateName": "DE",
+            "prov": "US",
+            "city": "Newark",
+            "countryName": "United States of America",
+            "longt": "-75.75377",
+            "latt": "39.62855"
+        }
+    ]
+}
