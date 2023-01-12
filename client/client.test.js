@@ -1,4 +1,4 @@
-const { locationApi,weatherAPI } = require("./client");
+const { locationApi, weatherAPI } = require("./client");
 const axios = require("axios");
 
 jest.mock("axios");
@@ -37,8 +37,7 @@ describe("geocode calls", function () {
       },
     });
   });
-  
-  
+
   it("recieves error", async function () {
     axios.get.mockResolvedValue({
       data: {
@@ -48,7 +47,7 @@ describe("geocode calls", function () {
         },
       },
     });
-    const response =await locationApi("FDsafadsfadsgdfsdfsdsafdfg")
+    const response = await locationApi("FDsafadsfadsgdfsdfsdsafdfg");
     expect(response).toEqual({
       error: {
         code: "008",
@@ -57,60 +56,33 @@ describe("geocode calls", function () {
     });
   });
 
-  it("handles api failures", async function (){
-    axios.get.mockResolvedValue(new Error("error"))
-    const response = await locationApi("this is an error")
-    expect(response).toBeInstanceOf(Error)
-  })
+  it("handles api failures", async function () {
+    axios.get.mockResolvedValue(new Error("error"));
+    const response = await locationApi("this is an error");
+    expect(response).toBeInstanceOf(Error);
+  });
 });
 
-describe("openweather calls", function () {
-  it("returns the expected data", async function () {
-    // axios.get.mockResolvedValue({
-    //   data: {
-    //     standard: {
-    //       addresst: {},
-    //       statename: {},
-    //       city: "Philadelphia",
-    //       prov: "US",
-    //       countryname: "United States of America",
-    //       postal: {},
-    //       confidence: "0.90",
-    //     },
-    //     longt: "-75.14225",
-    //     alt: {},
-    //     elevation: {},
-    //     remaining_credits: "-80",
-    //     latt: "40.00395",
-    //   },
-    // });
-    const response = await weatherAPI("40.00395","-75.14225");
-    console.log(data)
-    expect(data).toBeInstanceOf(Error)
-  });
-  
-  
-  it("recieves error", async function () {
-    axios.get.mockResolvedValue({
-      data: {
-        error: {
-          code: "008",
-          description: "7. Your request did not produce any results.",
-        },
-      },
-    });
-    const response =await locationApi("FDsafadsfadsgdfsdfsdsafdfg")
-    expect(response).toEqual({
+it("recieves error", async function () {
+  axios.get.mockResolvedValue({
+    data: {
       error: {
         code: "008",
         description: "7. Your request did not produce any results.",
       },
-    });
+    },
   });
+  const response = await locationApi("FDsafadsfadsgdfsdfsdsafdfg");
+  expect(response).toEqual({
+    error: {
+      code: "008",
+      description: "7. Your request did not produce any results.",
+    },
+  });
+});
 
-  it("handles api failures", async function (){
-    axios.get.mockResolvedValue(new Error("error"))
-    const response = await locationApi("this is an error")
-    expect(response).toBeInstanceOf(Error)
-  })
+it("handles api failures", async function () {
+  axios.get.mockResolvedValue(new Error("error"));
+  const response = await locationApi("this is an error");
+  expect(response).toBeInstanceOf(Error);
 });

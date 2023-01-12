@@ -2,9 +2,13 @@ const express = require("express");
 const router = new express.Router();
 const jsonschema = require("jsonschema");
 const { locationApi } = require("../client/client");
-const { ensureLoggedIn,ensureAdmin,ensureAdminOrMatchingUser } = require("../middleware/auth");
+const {
+  ensureLoggedIn,
+  ensureAdmin,
+  ensureAdminOrMatchingUser,
+} = require("../middleware/auth");
 const newLocationSchema = require("../schemas/addLocation.json");
-const Location =require("../models/location")
+const Location = require("../models/location");
 
 /**gets location data from Geocode.xyz based on paramater data
  * params aaccept any string
@@ -21,15 +25,18 @@ router.get("/:location", ensureLoggedIn, async function (req, res, next) {
 
 /**gets saved location data from database based on id
  */
-router.get("/:username/:id", ensureAdminOrMatchingUser, async function (req, res, next) {
-  try {
-    const location = await Location.get(req.params.id);
-    return res.json({ location });
-  } catch (err) {
-    return next(err);
+router.get(
+  "/:username/:id",
+  ensureAdminOrMatchingUser,
+  async function (req, res, next) {
+    try {
+      const location = await Location.get(req.params.id);
+      return res.json({ location });
+    } catch (err) {
+      return next(err);
+    }
   }
-});
-
+);
 
 /** POST / { location } => { location }
  *
@@ -40,21 +47,27 @@ router.get("/:username/:id", ensureAdminOrMatchingUser, async function (req, res
  * Authorization required: user
  */
 
-router.post("/:username", ensureAdminOrMatchingUser, async function (req, res, next) {
-  try {
-    const validator = jsonschema.validate(req.body.location, newLocationSchema);
-    if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
-      console.log(errs)
-      throw new BadRequestError(errs);
+router.post(
+  "/:username",
+  ensureAdminOrMatchingUser,
+  async function (req, res, next) {
+    try {
+      const validator = jsonschema.validate(req.body, newLocationSchema);
+      if (!validator.valid) {
+        const errs = validator.errors.map((e) => e.stack);
+        console.log(errs);
+        throw new BadRequestError(errs);
+      }
+      const location = await Location.create({
+        ...req.body,
+        username: req.params.username,
+      });
+      return res.status(201).json({ location });
+    } catch (err) {
+      return next(err);
     }
-    const location = await Location.create({...req.body.location, username:req.params.username});
-    return res.status(201).json({ location });
-  } catch (err) {
-    return next(err);
   }
-});
-
+);
 
 /** DELETE /[id]  =>  { deleted: id }
  *

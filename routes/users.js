@@ -25,15 +25,14 @@ const router = express.Router();
 
 router.post("/", ensureAdmin, async function (req, res, next) {
   try {
-    const userData = req.body.user;
-    const validator = jsonschema.validate(userData, addUserSchema);
+    const validator = jsonschema.validate(req.body, addUserSchema);
     if (!validator.valid) {
       const errs = validator.errors.map((error) => error.stack);
       console.log(errs);
       throw new BadRequestError(errs);
     }
 
-    const user = await User.register(req.body.user);
+    const user = await User.register(req.body);
     const token = createToken(user);
     return res.status(201).json({ user, token });
   } catch (err) {

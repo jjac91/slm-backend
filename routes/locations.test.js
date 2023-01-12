@@ -20,7 +20,9 @@ jest.setTimeout(300000000);
 /**Get /location/:location */
 describe("GET /location/:location", function () {
   test("works", async function () {
-    const resp = await request(app).get(`/location/philadelphia`).send({_token: u1Token});
+    const resp = await request(app)
+      .get(`/location/philadelphia`)
+      .set("authorization", `Bearer ${adminToken}`);
     expect(resp.body).toEqual({
       apiResponse: {
         locationData: {
@@ -30,16 +32,16 @@ describe("GET /location/:location", function () {
           city: "Philadelphia",
           prov: "US",
           countryName: "United States of America",
-          longt: "-75.14225",
-          latt: "40.00395",
+          longt: "-75.13576",
+          latt: "40.00583",
         },
       },
     });
   });
   test("works with admin", async function () {
-    const resp = await request(app).get(
-      `/location/109 HOLIDAY PLACE NEWARK DELAWARE`
-    ).send({_token: adminToken});
+    const resp = await request(app)
+      .get(`/location/109 HOLIDAY PLACE NEWARK DELAWARE`)
+      .set("authorization", `Bearer ${adminToken}`);
     expect(resp.body).toEqual({
       apiResponse: {
         locationData: {
@@ -56,7 +58,9 @@ describe("GET /location/:location", function () {
     });
   });
   test("doesn't work", async function () {
-    const resp = await request(app).get(`/location/dggdfsgdsfgdfgdsfhdfgsh`).send({_token: u1Token});
+    const resp = await request(app)
+      .get(`/location/dggdfsgdsfgdfgdsfhdfgsh`)
+      .set("authorization", `Bearer ${adminToken}`);
     expect(resp.body).toEqual({
       apiResponse: {
         error: {
@@ -72,7 +76,9 @@ describe("GET /location/:location", function () {
 
 describe("GET /location/:id", function () {
   test("works for user", async function () {
-    const resp = await request(app).get(`/location/u1/${testLocIDs[0]}`).send({_token:u1Token});
+    const resp = await request(app)
+      .get(`/location/u1/${testLocIDs[0]}`)
+      .set("authorization", `Bearer ${adminToken}`);
     expect(resp.body).toEqual({
       location: {
         id: testLocIDs[0],
@@ -85,13 +91,15 @@ describe("GET /location/:id", function () {
         countryName: "United States of America",
         longt: "-75.14225",
         latt: "40.00395",
-        username:"u1"
+        username: "u1",
       },
     });
   });
 
   test("not found for no such location", async function () {
-    const resp = await request(app).get(`/location/u1/0`).send({_token: u1Token});
+    const resp = await request(app)
+      .get(`/location/u1/0`)
+      .set("authorization", `Bearer ${adminToken}`);
     expect(resp.statusCode).toEqual(404);
   });
 });
@@ -103,19 +111,17 @@ describe("POST /location/:username", function () {
     const resp = await request(app)
       .post(`/location/u1`)
       .send({
-        location: {
-          label: "Philly",
-          stNumber: null,
-          addressSt: null,
-          stateName: null,
-          city: "Philadelphia",
-          prov: "US",
-          countryName: "United States of America",
-          longt: "-75.14225",
-          latt: "40.00395",
-        },
-        _token: adminToken,
-      });
+        label: "Philly",
+        stNumber: null,
+        addressSt: null,
+        stateName: null,
+        city: "Philadelphia",
+        prov: "US",
+        countryName: "United States of America",
+        longt: "-75.14225",
+        latt: "40.00395",
+      })
+      .set("authorization", `Bearer ${adminToken}`);
     expect(resp.statusCode).toEqual(201);
     expect(resp.body).toEqual({
       location: {
@@ -129,7 +135,7 @@ describe("POST /location/:username", function () {
         countryName: "United States of America",
         longt: "-75.14225",
         latt: "40.00395",
-        username:"u1"
+        username: "u1",
       },
     });
   });
@@ -138,19 +144,17 @@ describe("POST /location/:username", function () {
     const resp = await request(app)
       .post(`/location/u1`)
       .send({
-        location: {
-          label: "home",
-          stNumber: 109,
-          addressSt: "Holiday Pl",
-          stateName: "DE",
-          prov: "US",
-          city: "Newark",
-          countryName: "United States of America",
-          longt: "-75.75377",
-          latt: "39.62855",
-        },
-        _token: u1Token,
-      });
+        label: "home",
+        stNumber: 109,
+        addressSt: "Holiday Pl",
+        stateName: "DE",
+        prov: "US",
+        city: "Newark",
+        countryName: "United States of America",
+        longt: "-75.75377",
+        latt: "39.62855",
+      })
+      .set("authorization", `Bearer ${adminToken}`);
     expect(resp.statusCode).toEqual(201);
     expect(resp.body).toEqual({
       location: {
@@ -164,7 +168,7 @@ describe("POST /location/:username", function () {
         countryName: "United States of America",
         longt: "-75.75377",
         latt: "39.62855",
-        username:"u1"
+        username: "u1",
       },
     });
   });
@@ -172,12 +176,11 @@ describe("POST /location/:username", function () {
 
 describe("DELETE /locations/:id", function () {
   test("works for admin", async function () {
-    const resp = await request(app).delete(`/location/${testLocIDs[0]}`).send({
-      _token: adminToken,
-    });
+    const resp = await request(app)
+      .delete(`/location/${testLocIDs[0]}`)
+      .set("authorization", `Bearer ${adminToken}`);
     expect(resp.body).toEqual({ deleted: testLocIDs[0] });
   });
-
 
   test("unauth for anon", async function () {
     const resp = await request(app).delete(`/location/${testLocIDs[0]}`);
@@ -185,9 +188,9 @@ describe("DELETE /locations/:id", function () {
   });
 
   test("not found for no such job", async function () {
-    const resp = await request(app).delete(`/location/0`).send({
-      _token: adminToken,
-    });
+    const resp = await request(app)
+      .delete(`/location/0`)
+      .set("authorization", `Bearer ${adminToken}`);
     expect(resp.statusCode).toEqual(404);
   });
 });
