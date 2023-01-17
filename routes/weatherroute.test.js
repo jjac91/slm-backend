@@ -21,9 +21,10 @@ jest.setTimeout(300000000);
 
 describe("GET /weather", function () {
   test("creates response object", async function () {
-    const response = await request(app).get(`/weather?lat=40.00395&lon=-75.14225`);
+    const response = await request(app)
+      .get(`/weather?lat=40.00395&lon=-75.14225`)
+      .set("authorization", `Bearer ${adminToken}`);
     console.log(response.body);
     expect(response.body).toBeInstanceOf(Object);
   });
 });
-

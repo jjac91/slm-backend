@@ -3,7 +3,7 @@ const router = new express.Router();
 const { weatherInterpreter, weatherApiCurrent } = require("../client/weather");
 const { ensureLoggedIn,ensureAdmin,ensureAdminOrMatchingUser } = require("../middleware/auth");
 
-router.get("/", async function (req, res, next){
+router.get("/",ensureLoggedIn, async function (req, res, next){
     const lat = req.query.lat
     const lon = req.query.lon
     try{
