@@ -16,6 +16,21 @@ describe("geocode calls", function () {
           longt: "-75.14225",
           latt: "40.00395",
         },
-      });
+      })
     });
+    it("returns the expected data obj", async function () {
+        const response = await locationApi("philadelphia");
+        expect(response).toEqual({
+          locationData: {
+            stNumber: null,
+            addressSt: null,
+            stateName: null,
+            city: "Philadelphia",
+            prov: "US",
+            countryName: "United States of America",
+            longt: "-75.14225",
+            latt: "40.00395",
+          },
+        });
+      });
 })
