@@ -1,7 +1,6 @@
 const axios = require("axios");
-const { GEOCODE_API_KEY,OPEN_WEATHER_API_KEY } = require("../config");
+const { GEOCODE_API_KEY } = require("../config");
 const geocodeUrl = "https://geocode.xyz";
-const openweatherUrl= "https://api.openweathermap.org/data/3.0/onecall?"
 
 async function locationApi(locationString) {
   try {
@@ -14,7 +13,8 @@ async function locationApi(locationString) {
         description: response.data.error.description,
       };
       return { error };
-    } else {
+    }
+     else {
       const standardData = response.data.standard;
       const locationData = {
         stNumber: standardData.stnumber ? parseInt(standardData.stnumber) : null,
@@ -35,8 +35,8 @@ async function locationApi(locationString) {
       };
       return { locationData };
     }
-  } catch (err) {
-    return err;
+  } catch (error) {
+    return error;
   }
 }
 

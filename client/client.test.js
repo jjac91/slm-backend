@@ -1,4 +1,4 @@
-const { locationApi, weatherAPI } = require("./client");
+const { locationApi} = require("./client");
 const axios = require("axios");
 
 jest.mock("axios");

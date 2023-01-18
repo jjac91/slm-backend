@@ -177,19 +177,26 @@ describe("POST /location/:username", function () {
 describe("DELETE /locations/:id", function () {
   test("works for admin", async function () {
     const resp = await request(app)
-      .delete(`/location/${testLocIDs[0]}`)
+      .delete(`/location/u1/${testLocIDs[0]}`)
       .set("authorization", `Bearer ${adminToken}`);
     expect(resp.body).toEqual({ deleted: testLocIDs[0] });
   });
 
+  test("works for same user", async function () {
+    const resp = await request(app)
+      .delete(`/location/u1/${testLocIDs[0]}`)
+      .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.body).toEqual({ deleted: testLocIDs[0] });
+  });
+
   test("unauth for anon", async function () {
-    const resp = await request(app).delete(`/location/${testLocIDs[0]}`);
+    const resp = await request(app).delete(`/location/u1/${testLocIDs[0]}`);
     expect(resp.statusCode).toEqual(401);
   });
 
   test("not found for no such job", async function () {
     const resp = await request(app)
-      .delete(`/location/0`)
+      .delete(`/location/u1/0`)
       .set("authorization", `Bearer ${adminToken}`);
     expect(resp.statusCode).toEqual(404);
   });

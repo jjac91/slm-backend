@@ -74,7 +74,7 @@ router.post(
  * Authorization required: admin
  */
 
-router.delete("/:id", ensureAdmin, async function (req, res, next) {
+router.delete("/:username/:id", ensureAdminOrMatchingUser, async function (req, res, next) {
   try {
     await Location.remove(req.params.id);
     return res.json({ deleted: +req.params.id });
