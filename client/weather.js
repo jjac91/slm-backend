@@ -11,7 +11,7 @@ async function weatherApiCurrent(latString, lonString) {
 
     return response.data;
   } catch (err) {
-    return err;
+    throw err;
   }
 }
 
@@ -38,7 +38,7 @@ function handleUVI(uviNum) {
 
 function handleWind(windSpeed){
   if (windSpeed < 4) return "There is little to no wind."
-  if (windSpeed >= 4 && windSpeed <13) return "There is a gentle breeze."
+  if (windSpeed >= 4 && windSpeed <13) return "There is a gentle breeze. No extra precautions needed"
   if (windSpeed >=13 && windSpeed <25) return "It is a windy day. Small and light objects, such as dust and paper, may be blown away."
   if (windSpeed >=25 && windSpeed <39) return "The wind is strong enough to be an inconvience when walking against it. Be careful using umbrellas while the wind is blowing."
   if (windSpeed >=39 && windSpeed <47) return "The wind is strong enough to break twigs off of trees. Beware of small debris being carried by the wind when outside."
@@ -60,7 +60,7 @@ function handleSnowFall(snowfall){
   if (snowfall >5 ) return "There is heavy snow. Wear boots and warm clothing. Ensure that that your head is covered."
 }
 function handleRainFall(rainfall){
-  if (rainfall <3) return "light rain"
+  if (rainfall <3) return "There is a small amount of rain, wear shoes than can get wet and wear a hood or umbrella"
   if (rainfall >= 2 && rainfall <8) return "moderate rain"
   if (rainfall >= 8 && rainfall <50) return "heavy rain"
   if (rainfall >50 ) return "violent rain"

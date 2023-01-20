@@ -36,7 +36,7 @@ async function locationApi(locationString) {
       return { locationData };
     }
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
