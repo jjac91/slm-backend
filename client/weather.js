@@ -61,38 +61,16 @@ function handleSnowFall(snowfall){
 }
 function handleRainFall(rainfall){
   if (rainfall <3) return "There is a small amount of rain, wear shoes than can get wet and wear a hood or umbrella"
-  if (rainfall >= 2 && rainfall <8) return "moderate rain"
-  if (rainfall >= 8 && rainfall <50) return "heavy rain"
-  if (rainfall >50 ) return "violent rain"
+  if (rainfall >= 2 && rainfall <8) return "There is a moderate amount of rain, wear waterpoof shoes or boots and a hooded coat or umbrella"
+  if (rainfall >= 8 && rainfall <50) return "There is a large amount of rain, wear boots, a raincoat, and an umbrella if not too windy."
+  if (rainfall >50 ) return "There is an extreme amount of rain, avoid going outside if possible. Otherwise wear durable boots and a strong raincoat"
 }
 
 
 
-// function handleWeatherID(weatherID){
-//     if (weatherID >199 && weatherID <300) return "thunderstorm"
-//     if (weatherID >299 && weatherID <400) return "drizzle"
-//     if (weatherID >499 && weatherID <510 || weatherID > 511 && weatherID < 600) return "rain"
-//     if (weatherID === 511) return "freezing rain"
-//     if (weatherID >610 && weatherID <614) return "sleet"
-//     if (weatherID === 615||616) return "snow and rain"
-//     if (weatherID >610 && weatherID <614) return "sleet"
-//     if (weatherID === 701) return "mist"
-//     if (weatherID === 711) return "smoke"
-//     if (weatherID === 721) return "haze"
-//     if (weatherID === 731|761) return "dust"
-//     if (weatherID === 741) return "fog"
-//     if (weatherID === 751) return "sand"
-//     if (weatherID === 762) return "ash"
-//     if (weatherID === 771) return "squall"
-//     if (weatherID === 781) return "tornado"
-//     if (weatherID === 800) return "clear"
-//     if (weatherID === 801) return "mild clouds"
-//     if (weatherID === 802||803) return "moderate clouds"
-//     if (weatherID === 804) return "overcast"
-// }
+
 module.exports = {
   weatherApiCurrent,
   handleUVI,
-  // handleWeatherID,
   weatherInterpreter
 };
