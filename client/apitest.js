@@ -1,16 +1,17 @@
 const axios = require("axios");
 
-async function test() {
+async function apitest() {
     try {
       const response = await axios.get(
         `https://geocode.xyz/?locate=anderson&json=1`
       );
-      console.log(response.body)
-      return(response.body)
+      console.log(response.data)
+      return(response.data)
     } catch (error) {
+        console.log(error.response.data)
       throw error;
     }
   }
   module.exports = {
-    test,
+    apitest,
   };

@@ -1,10 +1,10 @@
-const { test } = require("./apitest");
+const { apitest } = require("./apitest");
 
 describe("geocode calls", function () {
-    test("works for same user", async function () {
-        const resp = test
+    test("works", async function () {
+        const resp =  await apitest()
           console.log(resp)
-        expect.anything();
+        expect(resp).toBeInstanceOf(Object)
       });
 });
 
