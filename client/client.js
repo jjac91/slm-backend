@@ -5,7 +5,7 @@ const geocodeUrl = "https://geocode.xyz";
 async function locationApi(locationString) {
   try {
     const response = await axios.get(
-      `${geocodeUrl}/${locationString}?json=1&auth=${GEOCODE_API_KEY}`
+      `${geocodeUrl}/?locate=${locationString}&json=1`
     );
     if (response.data.error) {
       const error = {
