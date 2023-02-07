@@ -17,5 +17,4 @@ module.exports = {
   SECRET_KEY,
   PORT,
   BCRYPT_WORK_FACTOR,
-  OPEN_WEATHER_API_KEY
 };
