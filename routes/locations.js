@@ -7,6 +7,7 @@ const {
   ensureAdmin,
   ensureAdminOrMatchingUser,
 } = require("../middleware/auth");
+const { BadRequestError } = require("../expressError");
 const newLocationSchema = require("../schemas/addLocation.json");
 const Location = require("../models/location");
 
@@ -23,7 +24,14 @@ router.get("/:location", ensureLoggedIn, async function (req, res, next) {
   }
 });
 
-/**gets saved location data from database based on id
+/**GET / [username]/[id]
+ * 
+ * username is the username of the user who the location belongs to
+ * id is the id number of the location
+ * 
+ * Returns { id, label, stNumber, addressSt, city, prov, countryName, longt, latt }
+ * 
+ * Authorization required: user
  */
 router.get(
   "/:username/:id",
@@ -71,7 +79,7 @@ router.post(
 
 /** DELETE /[id]  =>  { deleted: id }
  *
- * Authorization required: admin
+ * Authorization required: user
  */
 
 router.delete("/:username/:id", ensureAdminOrMatchingUser, async function (req, res, next) {

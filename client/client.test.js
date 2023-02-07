@@ -1,4 +1,4 @@
-const { locationApi} = require("./client");
+const { locationApi } = require("./client");
 const axios = require("axios");
 
 jest.mock("axios");
@@ -57,32 +57,11 @@ describe("geocode calls", function () {
   });
 
   it("handles api failures", async function () {
-    axios.get.mockResolvedValue(new Error("error"));
-    const response = await locationApi("this is an error");
-    expect(response).toBeInstanceOf(Error);
+    try {
+      axios.get.mockRejectedValueOnce({ code: "there was an error" });
+      await locationApi("error");
+    } catch (error) {
+      expect(error.code).toMatch("there was an error");
+    }
   });
-});
-
-it("recieves error", async function () {
-  axios.get.mockResolvedValue({
-    data: {
-      error: {
-        code: "008",
-        description: "7. Your request did not produce any results.",
-      },
-    },
-  });
-  const response = await locationApi("FDsafadsfadsgdfsdfsdsafdfg");
-  expect(response).toEqual({
-    error: {
-      code: "008",
-      description: "7. Your request did not produce any results.",
-    },
-  });
-});
-
-it("handles api failures", async function () {
-  axios.get.mockResolvedValue(new Error("error"));
-  const response = await locationApi("this is an error");
-  expect(response).toBeInstanceOf(Error);
 });

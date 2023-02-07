@@ -1,8 +1,15 @@
 const express = require("express");
 const router = new express.Router();
 const { weatherInterpreter, weatherApiCurrent } = require("../client/weather");
-const { ensureLoggedIn,ensureAdmin,ensureAdminOrMatchingUser } = require("../middleware/auth");
+const { ensureLoggedIn} = require("../middleware/auth");
 
+/**GET /lat, loc => {{advice}{weather}}
+ * 
+ * takes lat and loc from the query parameters and returns an 
+ * object consisting of 2 objects: weather and advice generated
+ * by the weatherApiCurrent and Weather interpreter functions
+ * respectively
+ */
 router.get("/",ensureLoggedIn, async function (req, res, next){
     const lat = req.query.lat
     const lon = req.query.lon

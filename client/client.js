@@ -1,12 +1,16 @@
 const axios = require("axios");
-const { GEOCODE_API_KEY } = require("../config");
 const geocodeUrl = "https://geocode.xyz";
 
+/**Looks up the location data from the api based on a given string
+ * Uses axios the query the api and then formats the response into
+ * the desired object
+ */
 async function locationApi(locationString) {
   try {
     const response = await axios.get(
       `${geocodeUrl}/?locate=${locationString}&json=1`
-    );
+    )
+    //some successul responses are errors(eg. no results). This passes them to the frontend.
     if (response.data.error) {
       const error = {
         code: response.data.error.code,
@@ -15,6 +19,9 @@ async function locationApi(locationString) {
       return { error };
     }
      else {
+      //takes the response object and reformats it into our desired object
+      //some locations might not have all of the values(e.g. a city won't neccesarily have a street address).
+      //this ensures that all the keys the front end expects are there.
       const standardData = response.data.standard;
       const locationData = {
         stNumber: standardData.stnumber ? parseInt(standardData.stnumber) : null,

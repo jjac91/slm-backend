@@ -1,5 +1,5 @@
 const request = require("supertest");
-
+const axios = require("axios");
 const app = require("../app");
 const {
   commonBeforeAll,
@@ -15,11 +15,32 @@ beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
-jest.setTimeout(300000000);
+
+
+
+jest.mock("axios");
 
 /**Get /location/:location */
 describe("GET /location/:location", function () {
   test("works", async function () {
+    axios.get.mockResolvedValueOnce({
+      data: {
+        standard: {
+          addresst: {},
+          statename: {},
+          city: "Philadelphia",
+          prov: "US",
+          countryname: "United States of America",
+          postal: {},
+          confidence: "0.90",
+        },
+        longt: "-75.14225",
+        alt: {},
+        elevation: {},
+        remaining_credits: "-80",
+        latt: "40.00395",
+      },
+    });
     const resp = await request(app)
       .get(`/location/philadelphia`)
       .set("authorization", `Bearer ${adminToken}`);
@@ -32,13 +53,33 @@ describe("GET /location/:location", function () {
           city: "Philadelphia",
           prov: "US",
           countryName: "United States of America",
-          longt: "-75.13576",
-          latt: "40.00583",
+          longt:  "-75.14225",
+          latt:  "40.00395",
         },
       },
     });
   });
+
   test("works with admin", async function () {
+    axios.get.mockResolvedValueOnce({
+      data: {
+        standard: {
+          stnumber: 109,
+          addresst: "Holiday Pl",
+          statename: "DE",
+          city: "Delaware",
+          prov: "US",
+          countryname: "United States of America",
+          postal: {},
+          confidence: "0.90",
+        },
+        longt: "-75.75377",
+        alt: {},
+        elevation: {},
+        remaining_credits: "-80",
+        latt: "39.62855",
+      },
+    });
     const resp = await request(app)
       .get(`/location/109 HOLIDAY PLACE NEWARK DELAWARE`)
       .set("authorization", `Bearer ${adminToken}`);
@@ -58,6 +99,14 @@ describe("GET /location/:location", function () {
     });
   });
   test("doesn't work", async function () {
+    axios.get.mockResolvedValueOnce({
+      data: {
+        error: {
+          code: "008",
+          description: "7. Your request did not produce any results.",
+        },
+      },
+    })
     const resp = await request(app)
       .get(`/location/dggdfsgdsfgdfgdsfhdfgsh`)
       .set("authorization", `Bearer ${adminToken}`);
@@ -171,6 +220,24 @@ describe("POST /location/:username", function () {
         username: "u1",
       },
     });
+  });
+
+  test("bad request with invalid data", async function () {
+    const resp = await request(app)
+      .post(`/location/u1`)
+      .send({
+        label: null,
+        stNumber: 109,
+        addressSt: "Holiday Pl",
+        stateName: "DE",
+        prov: "US",
+        city: "Newark",
+        countryName: "United States of America",
+        longt: "-75.75377",
+        latt: "39.62855",
+      })
+      .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(400);
   });
 });
 
