@@ -13,7 +13,6 @@ function getDatabaseUri() {
 
 
 module.exports = {
-  GEOCODE_API_KEY,
   getDatabaseUri,
   SECRET_KEY,
   PORT,
