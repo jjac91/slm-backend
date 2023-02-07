@@ -4,7 +4,7 @@ const PORT = +process.env.PORT || 3001;
 
 const BCRYPT_WORK_FACTOR = process.env.NODE_ENV === "test" ? 1 : 12;
 
-const OPEN_WEATHER_API_KEY = proccess.env.OPEN_WEATHER_API_KEY
+const OPEN_WEATHER_API_KEY = process.env.OPEN_WEATHER_API_KEY
 
 function getDatabaseUri() {
   return process.env.NODE_ENV === "test"
